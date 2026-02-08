@@ -1,6 +1,7 @@
 import os
 import io
 import base64
+import gdown
 from datetime import datetime
 from flask import Flask, render_template, request, jsonify, send_from_directory, redirect, url_for
 from werkzeug.utils import secure_filename
@@ -24,6 +25,10 @@ MODEL_PATH = os.path.join(BASE_DIR, 'bird_drone_classifier_model.h5')
 STATIC_TMP = os.path.join(BASE_DIR, 'static', 'tmp')
 os.makedirs(STATIC_TMP, exist_ok=True)
 
+# Google Drive model URL
+GDRIVE_MODEL_ID = '1BGKiZfFshSCIFMv8n3q0Lv6LUPVgCD5E'
+GDRIVE_URL = f'https://drive.google.com/uc?id={GDRIVE_MODEL_ID}'
+
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
@@ -32,7 +37,16 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+def download_model():
+    """Download model from Google Drive if not present"""
+    if not os.path.isfile(MODEL_PATH):
+        print(f"Downloading model from Google Drive...")
+        gdown.download(GDRIVE_URL, MODEL_PATH, quiet=False)
+        print(f"Model downloaded to {MODEL_PATH}")
+
+
 def load_keras():
+    download_model()
     if not os.path.isfile(MODEL_PATH):
         raise FileNotFoundError(f"Model file not found at {MODEL_PATH}")
     model = load_model(MODEL_PATH)
