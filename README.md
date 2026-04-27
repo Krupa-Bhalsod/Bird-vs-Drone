@@ -10,10 +10,3 @@ In this folder there are 2 sub-folders as Images and labels. Under Images folder
 
 ## Valid
 In this folder there are 2 sub-folders as Images and labels. Under Images folder both drone and birds images are stored, there are total 1740 images in total. Here BT stands for Bird Test Images and DT for Drone Test Images.
-# Bird-vs-Drone
-# Bird-vs-Drone
-# Bird-vs-Drone
-# Bird-vs-Drone
-# Bird-vs-Drone
-# Bird-vs-Drone
-# Bird-vs-Drone
